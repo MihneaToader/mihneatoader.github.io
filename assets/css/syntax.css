@@ -73,52 +73,52 @@
     padding: 20px;
   }
   
-  /* Style for each project card */
-  .project-card {
-    width: 250px;
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    position: relative;
-    transition: transform 0.3s;
-  }
-  
-  .project-card:hover {
-    transform: translateY(-5px);
-  }
-  
-  /* Image container */
-  .project-image {
-    position: relative;
-    overflow: hidden;
-  }
-  
-  /* Style for the image */
-  .project-image img {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-  
-  /* Title "chin" overlay */
-  .project-title {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Dark background for readability */
-    color: #ffffff; /* White text color */
-    text-align: center;
-    padding: 10px;
-    font-size: 1.2em;
-  }
-  
-  /* Title link styling */
-  .project-title a {
-    color: #ffffff;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  
-  .project-title a:hover {
-    text-decoration: underline;
-  }
+/* Style for each project card */
+.project-card {
+width: 250px;
+border-radius: 15px;
+overflow: hidden;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+position: relative;
+transition: transform 0.3s;
+}
+
+.project-card:hover {
+transform: translateY(-5px);
+}
+
+/* Image container */
+.project-image {
+position: relative;
+overflow: hidden;
+}
+
+/* Style for the image */
+.project-image img {
+width: 100%;
+height: auto;
+display: block;
+}
+
+/* Title "chin" overlay */
+.project-title {
+position: absolute;
+bottom: 0;
+width: 100%;
+background-color: rgba(0, 0, 0, 0.7); /* Dark background for readability */
+color: #ffffff; /* White text color */
+text-align: center;
+padding: 10px;
+font-size: 1.2em;
+}
+
+/* Title link styling */
+.project-title a {
+color: #ffffff;
+text-decoration: none;
+font-weight: bold;
+}
+
+.project-title a:hover {
+text-decoration: underline;
+}
