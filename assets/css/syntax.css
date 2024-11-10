@@ -63,3 +63,19 @@
 .css .o,
 .css .o + .nt,
 .css .nt + .nt { color: #999; }
+
+/* Container to hold the project cards in a grid */
+.projects-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  /* Style for each project card */
+  .project-card {
+    width: 250px;
+    background-color: #f8f8f8;
+    border-radius: 15px
+  
