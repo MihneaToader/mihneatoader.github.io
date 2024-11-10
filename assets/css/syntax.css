@@ -64,15 +64,6 @@
 .css .o + .nt,
 .css .nt + .nt { color: #999; }
 
-/* Container to hold the project cards in a grid */
-.projects-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    padding: 20px;
-}
-  
 /* Style for each project card */
 .project-card {
     width: 250px;
@@ -80,9 +71,10 @@
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     position: relative;
-    border: 2px solid #ddd; /* Adding a light border */
+    border: 2px solid #ddd;
     transition: transform 0.3s;
-    font-family: 'Georgia', serif; /* Changing the font */
+    font-family: 'Georgia', serif;
+    text-align: center; /* Ensures centered text */
 }
   
 .project-card:hover {
@@ -107,32 +99,25 @@
     position: absolute;
     bottom: 0;
     width: 100%;
-    background-color: rgba(64, 64, 64, 0.8); /* Darker gray for readability */
+    background-color: rgba(64, 64, 64, 0.8);
     color: #ffffff;
     text-align: center;
     padding: 10px;
     font-size: 1.2em;
-    font-family: 'Georgia', serif; /* Ensuring font consistency */
+    font-family: 'Georgia', serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px; /* Adjust to control chin height */
 }
-  
-/* Title link styling */
-.project-title a {
-    color: #ffffff;
-    text-decoration: none;
-    font-weight: bold;
-}
-  
-.project-title a:hover {
-    text-decoration: underline;
-}
-  
+
 /* Hover overlay for description */
 .project-card:hover .project-description {
     opacity: 1;
     visibility: visible;
 }
   
-/* Description overlay (initially hidden) */
+/* Description overlay */
 .project-description {
     position: absolute;
     top: 0;
@@ -151,5 +136,7 @@
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease;
+    box-sizing: border-box; /* Ensures padding doesn't affect centering */
 }
+  
   
