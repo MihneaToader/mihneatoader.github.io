@@ -102,14 +102,13 @@
     background-color: rgba(64, 64, 64, 0.8);
     color: #ffffff;
     text-align: center;
-    padding: 10px;
+    padding: 0; /* Remove padding for precise centering */
     font-size: 1.2em;
     font-family: 'Georgia', serif;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 40px; /* Adjust to control chin height */
-}
+    line-height: 40px; /* Set to match the chin height for vertical centering */
+    height: 40px; /* Adjust as desired for chin height */
+    overflow: hidden; /* Ensure no overflow issues */
+  }
 
 /* Hover overlay for description */
 .project-card:hover .project-description {
