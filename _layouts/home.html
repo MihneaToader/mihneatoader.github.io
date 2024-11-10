@@ -4,19 +4,19 @@ layout: default
 <div class="projects-container">
   {% for post in paginator.posts %}
     <div class="project-card">
+      <a href="{{ site.github.url }}{{ post.url }}">
       {% if post.image %}
         <div class="project-image">
-          <a href="{{ site.github.url }}{{ post.url }}">
             <img src="{{ site.github.url }}/assets/img/{{ post.image }}" alt="{{ post.title }}">
-          </a>
         </div>
       {% endif %}
       <div class="project-title">
-        <a href="{{ site.github.url }}{{ post.url }}">{{ post.title }}</a>
+        {{ post.title }}
       </div>
       <div class="project-description">
         {{ post.excerpt | strip_html | truncate: 100 }} <!-- Project description, truncated for display -->
       </div>
+      </a>
     </div>
   {% endfor %}
 </div>
