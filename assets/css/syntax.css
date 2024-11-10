@@ -64,6 +64,15 @@
 .css .o + .nt,
 .css .nt + .nt { color: #999; }
 
+/* Container for all project cards */
+.projects-container {
+    display: flex;
+    flex-wrap: wrap;        /* Allows cards to wrap to a new line if needed */
+    gap: 20px;              /* Space between cards */
+    justify-content: center; /* Centers cards within the container */
+    margin: 20px auto;      /* Optional: centers container within the page */
+  }
+
 /* Style for each project card */
 .project-card {
     width: 250px;
