@@ -6,7 +6,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Mihnea Toader"]
   spec.email         = [""]
 
-  spec.summary       = "Personal portofolio using Jekyll and Lagrange"
+  spec.summary       = "Personal portfolio using Jekyll and Lagrange"
   spec.homepage      = "https://github.com/MihneaToader/mihneatoader.github.io"
   spec.license       = "MIT"
 
