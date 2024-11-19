@@ -147,4 +147,71 @@
     box-sizing: border-box; /* Ensures padding doesn't affect centering */
 }
   
+.education-section {
+  padding: 2rem 0;
+  background-color: #f9f9f9;
+}
+
+.education-section h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.education-container {
+  display: flex;
+  align-items: center;
+}
+
+.education-item,
+.separator {
+  opacity: 0;
+  transform: translateX(20px);
+  transition: opacity 1s, transform 1s;
+}
+
+.education-item.animate,
+.separator.animate {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.education-item {
+  padding: 0.5rem;
+  max-width: 300px;
+}
+
+.education-item h4 {
+  font-size: 1.2rem;
+  color: #505050;
+}
+
+.education-item p {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.separator {
+  width: 1px;
+  height: 40px;
+  background-color: #ccc;
+  margin: 0 1rem;
+}
+
+.education-item:nth-child(1) {
+  animation-delay: 0.25s;
+}
+
+.separator:nth-child(2), 
+.education-item:nth-child(3) {
+  animation-delay: 1s;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+  
   

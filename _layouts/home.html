@@ -20,6 +20,22 @@ layout: default
     </div>
   {% endfor %}
 </div>
+
+<h3>Education</h2>
+<div class="education-container">
+  <div class="education-item">
+    <h4>University Name</h4>
+    <p>Bachelor of Science in Computer Science</p>
+    <p>Graduated: 2023</p>
+  </div>
+  <div class="separator"></div>
+  <div class="education-item">
+    <h4>Another Institution</h4>
+    <p>Course or Certification</p>
+    <p>Completed: 2021</p>
+  </div>
+</div>
+
 <!-- Pagination links -->
 <div class="pagination">
   {% if paginator.next_page %}
@@ -33,3 +49,29 @@ layout: default
     <span class="pagination-button">{{ site.data.settings.pagination.next_page }}</span>
   {% endif %}
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const observerOptions = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const index = Array.from(entry.target.parentNode.children).indexOf(entry.target);
+          entry.target.style.transitionDelay = `${Math.ceil(index / 2) * 0.5}s`;
+          entry.target.classList.add("animate");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    const items = document.querySelectorAll(".education-item, .separator");
+    items.forEach(item => {
+      observer.observe(item);
+    });
+  });
+</script>

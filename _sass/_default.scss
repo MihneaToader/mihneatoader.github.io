@@ -5,7 +5,8 @@
 .container {
   margin-left: auto;
   margin-right: auto;
-  width: 615px;
+  width: $container-responsive-width;
+  max-width: 1000px;
 }
 
 .content-container {
