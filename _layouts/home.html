@@ -5,6 +5,7 @@ layout: default
   <div class="intro-content">
     <h2>About Me</h2>
     <p>
+
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
     </p>
     <p>
@@ -21,28 +22,36 @@ layout: default
     </p>
   </div>
   <div class="intro-image">
-    <img src="assets\img\portrait.jpg" alt="Your Name">
+    <img src="{{ site.github.url }}/assets/img/portrait.jpg" alt="Your Name">
   </div>
 </section>
 
-<section class="projects-container">
-  {% for post in paginator.posts %}
-    <div class="project-card">
-      <a href="{{ site.github.url }}{{ post.url }}">
-      {% if post.image %}
-        <div class="project-image">
-            <img src="{{ site.github.url }}/assets/img/{{ post.image }}" alt="{{ post.title }}">
+<section class="projects-section">
+  <h2 class="projects-section-header">Projects</h2>
+  <div class="projects-wrapper">
+    <div class="projects-container" id="projectsContainer">
+      {% for post in site.posts %}
+        <div class="project-card" data-row="{{ forloop.index0 | divided_by: 4 }}">
+          <a href="{{ site.github.url }}{{ post.url }}">
+          {% if post.image %}
+            <div class="project-image">
+                <img src="{{ site.github.url }}/assets/img/{{ post.image }}" alt="{{ post.title }}">
+            </div>
+          {% endif %}
+          <div class="project-title">
+            {{ post.title }}
+          </div>
+          <div class="project-description">
+            {{ post.excerpt | strip_html | truncate: 100 }}
+          </div>
+          </a>
         </div>
-      {% endif %}
-      <div class="project-title">
-        {{ post.title }}
-      </div>
-      <div class="project-description">
-        {{ post.excerpt | strip_html | truncate: 100 }} <!-- Project description, truncated for display -->
-      </div>
-      </a>
+      {% endfor %}
     </div>
-  {% endfor %}
+    <div class="projects-overlay" id="projectsOverlay">
+      <button class="see-more-button" id="seeMoreButton">See More</button>
+    </div>
+  </div>
 </section>
 
 <section class="education-section">
@@ -62,22 +71,9 @@ layout: default
   </div>
 </section>
 
-<!-- Pagination links -->
-<section class="pagination">
-  {% if paginator.next_page %}
-    <a class="pagination-button pagination-active next" href="{{ site.github.url }}{{ paginator.next_page_path }}">{{ site.data.settings.pagination.previous_page }}</a>
-  {% else %}
-    <span class="pagination-button">{{ site.data.settings.pagination.previous_page }}</span>
-  {% endif %}
-  {% if paginator.previous_page %}
-    <a class="pagination-button pagination-active" href="{{ site.baseurl }}{{ paginator.previous_page_path }}">{{ site.data.settings.pagination.next_page }}</a>
-  {% else %}
-    <span class="pagination-button">{{ site.data.settings.pagination.next_page }}</span>
-  {% endif %}
-</section>
-
 <script>
   document.addEventListener("DOMContentLoaded", function () {
+    // Education section animation
     const observerOptions = {
       root: null,
       rootMargin: "0px",
@@ -99,5 +95,65 @@ layout: default
     items.forEach(item => {
       observer.observe(item);
     });
+
+    // Projects "See More" functionality
+    const projectsContainer = document.getElementById('projectsContainer');
+    const projectsOverlay = document.getElementById('projectsOverlay');
+    const seeMoreButton = document.getElementById('seeMoreButton');
+    
+    if (projectsContainer && projectsOverlay && seeMoreButton) {
+      const projectCards = Array.from(projectsContainer.querySelectorAll('.project-card'));
+      
+      // Function to calculate cards per row based on container width
+      function getCardsPerRow() {
+        const containerWidth = projectsContainer.offsetWidth;
+        if (containerWidth <= 480) return 1;
+        if (containerWidth <= 768) return 2;
+        if (containerWidth <= 1200) return 3;
+        return 4;
+      }
+      
+      // Function to hide/show cards based on visible rows
+      function updateVisibleCards() {
+        const cardsPerRow = getCardsPerRow();
+        const maxVisibleRows = 2;
+        const maxVisibleCards = cardsPerRow * maxVisibleRows;
+        
+        projectCards.forEach((card, index) => {
+          if (index >= maxVisibleCards) {
+            card.classList.add('project-card-hidden');
+          } else {
+            card.classList.remove('project-card-hidden');
+          }
+        });
+        
+        // Show/hide overlay based on number of projects
+        if (projectCards.length <= maxVisibleCards) {
+          projectsOverlay.style.display = 'none';
+        } else {
+          projectsOverlay.style.display = 'flex';
+        }
+      }
+      
+      // Initial setup
+      updateVisibleCards();
+      
+      // Update on window resize
+      let resizeTimeout;
+      window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(updateVisibleCards, 250);
+      });
+      
+      // See More button click handler
+      seeMoreButton.addEventListener('click', function() {
+        // Show all hidden cards
+        projectCards.forEach(card => {
+          card.classList.remove('project-card-hidden');
+        });
+        // Hide the overlay
+        projectsOverlay.style.display = 'none';
+      });
+    }
   });
 </script>

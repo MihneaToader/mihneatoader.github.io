@@ -64,26 +64,72 @@
 .css .o + .nt,
 .css .nt + .nt { color: #999; }
 
+/* Projects Section */
+.projects-section {
+  margin: 3rem 0;
+}
+
+.projects-section-header {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.projects-wrapper {
+  position: relative;
+}
+
 /* Container for all project cards */
 .projects-container {
     display: flex;
     flex-wrap: wrap;        /* Allows cards to wrap to a new line if needed */
     gap: 20px;              /* Space between cards */
-    justify-content: center; /* Centers cards within the container */
-    margin: 20px auto;      /* Optional: centers container within the page */
+    justify-content: flex-start; /* Align cards to start */
+    margin: 20px 0;         /* Margin for spacing */
   }
 
 /* Style for each project card */
 .project-card {
-    width: 15vw;
+    flex: 0 0 calc(25% - 15px); /* 4 cards per row with gap */
+    min-width: 200px;
+    max-width: 300px;
     border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     position: relative;
     border: 2px solid #ddd;
-    transition: transform 0.3s;
+    transition: transform 0.3s, opacity 0.3s;
     font-family: 'Georgia', serif;
-    text-align: center; /* Ensures centered text */
+    text-align: center;
+    opacity: 1;
+}
+
+/* Responsive: 3 cards per row on medium screens */
+@media (max-width: 1200px) {
+  .project-card {
+    flex: 0 0 calc(33.333% - 14px); /* 3 cards per row */
+  }
+}
+
+/* Responsive: 2 cards per row on tablets */
+@media (max-width: 768px) {
+  .project-card {
+    flex: 0 0 calc(50% - 10px); /* 2 cards per row */
+  }
+}
+
+/* Responsive: 1 card per row on mobile */
+@media (max-width: 480px) {
+  .project-card {
+    flex: 0 0 100%; /* 1 card per row */
+    max-width: 100%;
+  }
+}
+
+/* Hidden project cards */
+.project-card-hidden {
+  display: none;
 }
   
 .project-card:hover {
@@ -235,6 +281,126 @@
   width: 100%;
   height: auto;
   display: block;
+}
+
+/* Projects Overlay and See More Button */
+.projects-overlay {
+  position: relative;
+  margin-top: -150px;
+  height: 150px;
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.7) 70%, transparent 100%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 20px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.see-more-button {
+  pointer-events: auto;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 12px 30px;
+  font-size: 1rem;
+  font-family: "Quattrocento Sans", sans-serif;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.see-more-button:hover {
+  background-color: #555;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.see-more-button:active {
+  transform: translateY(0);
+}
+
+/* Projects List Page Styles */
+.projects-list {
+  margin: 2rem 0;
+}
+
+.project-list-item {
+  margin-bottom: 3rem;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 2rem;
+}
+
+.project-list-item:last-child {
+  border-bottom: none;
+}
+
+.project-list-item a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.project-list-item a:hover {
+  color: inherit;
+}
+
+.project-list-content {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.project-list-image {
+  flex: 0 0 200px;
+  max-width: 200px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.project-list-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.project-list-text {
+  flex: 1;
+}
+
+.project-list-text h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+  font-family: "Quattrocento Sans", sans-serif;
+}
+
+.project-list-text p {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 0.5rem;
+}
+
+.project-list-date {
+  font-size: 0.9rem;
+  color: #999;
+  font-style: italic;
+}
+
+/* Responsive: Stack image and text on mobile */
+@media (max-width: 768px) {
+  .project-list-content {
+    flex-direction: column;
+  }
+  
+  .project-list-image {
+    flex: 0 0 auto;
+    max-width: 100%;
+    width: 100%;
+  }
 }
   
   
