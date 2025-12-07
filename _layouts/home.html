@@ -107,31 +107,63 @@ layout: default
       // Function to calculate cards per row based on container width
       function getCardsPerRow() {
         const containerWidth = projectsContainer.offsetWidth;
-        if (containerWidth <= 480) return 1;
-        if (containerWidth <= 768) return 2;
-        if (containerWidth <= 1200) return 3;
-        return 4;
+        if (containerWidth <= 480) return 2;  // 2 cards on phones
+        if (containerWidth <= 768) return 2;  // 2 cards on small tablets
+        if (containerWidth <= 1200) return 3; // 3 cards on medium screens
+        return 4; // 4 cards on desktop
+      }
+      
+      // Function to position overlay to cover second row
+      function positionOverlay() {
+        const cardsPerRow = getCardsPerRow();
+        if (projectCards.length <= cardsPerRow) {
+          return; // No overlay needed
+        }
+        
+        // Get the first card of the second row
+        const secondRowFirstCard = projectCards[cardsPerRow];
+        if (secondRowFirstCard && !secondRowFirstCard.classList.contains('project-card-hidden')) {
+          const cardRect = secondRowFirstCard.getBoundingClientRect();
+          const containerRect = projectsContainer.getBoundingClientRect();
+          const offsetFromTop = cardRect.top - containerRect.top;
+          
+          // Position overlay to start from second row
+          projectsOverlay.style.top = offsetFromTop + 'px';
+          projectsOverlay.style.bottom = 'auto';
+        }
       }
       
       // Function to hide/show cards based on visible rows
       function updateVisibleCards() {
         const cardsPerRow = getCardsPerRow();
-        const maxVisibleRows = 2;
+        const maxVisibleRows = 2; // Show first 2 rows (first clickable, second blocked)
         const maxVisibleCards = cardsPerRow * maxVisibleRows;
         
         projectCards.forEach((card, index) => {
           if (index >= maxVisibleCards) {
+            // Hide cards beyond second row
             card.classList.add('project-card-hidden');
-          } else {
+            card.classList.remove('project-card-overlay-blocked');
+          } else if (index >= cardsPerRow) {
+            // Second row: visible but blocked by overlay
             card.classList.remove('project-card-hidden');
+            card.classList.add('project-card-overlay-blocked');
+          } else {
+            // First row: fully visible and clickable
+            card.classList.remove('project-card-hidden');
+            card.classList.remove('project-card-overlay-blocked');
           }
         });
         
         // Show/hide overlay based on number of projects
-        if (projectCards.length <= maxVisibleCards) {
+        if (projectCards.length <= cardsPerRow) {
+          // Only one row, no overlay needed
           projectsOverlay.style.display = 'none';
         } else {
+          // More than one row, show overlay to block second row
           projectsOverlay.style.display = 'flex';
+          // Position overlay after a short delay to ensure layout is complete
+          setTimeout(positionOverlay, 50);
         }
       }
       
@@ -142,14 +174,18 @@ layout: default
       let resizeTimeout;
       window.addEventListener('resize', function() {
         clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(updateVisibleCards, 250);
+        resizeTimeout = setTimeout(function() {
+          updateVisibleCards();
+          positionOverlay();
+        }, 250);
       });
       
       // See More button click handler
       seeMoreButton.addEventListener('click', function() {
-        // Show all hidden cards
+        // Show all cards and remove blocking
         projectCards.forEach(card => {
           card.classList.remove('project-card-hidden');
+          card.classList.remove('project-card-overlay-blocked');
         });
         // Hide the overlay
         projectsOverlay.style.display = 'none';

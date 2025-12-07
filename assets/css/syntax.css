@@ -78,6 +78,7 @@
 
 .projects-wrapper {
   position: relative;
+  overflow: hidden;
 }
 
 /* Container for all project cards */
@@ -85,7 +86,7 @@
     display: flex;
     flex-wrap: wrap;        /* Allows cards to wrap to a new line if needed */
     gap: 20px;              /* Space between cards */
-    justify-content: flex-start; /* Align cards to start */
+    justify-content: center; /* Center cards */
     margin: 20px 0;         /* Margin for spacing */
   }
 
@@ -112,24 +113,40 @@
   }
 }
 
-/* Responsive: 2 cards per row on tablets */
+/* Responsive: 2-3 cards per row on tablets/phones */
 @media (max-width: 768px) {
   .project-card {
     flex: 0 0 calc(50% - 10px); /* 2 cards per row */
+    min-width: 150px;
   }
 }
 
-/* Responsive: 1 card per row on mobile */
+/* Responsive: 2-3 cards per row on smaller phones */
 @media (max-width: 480px) {
   .project-card {
-    flex: 0 0 100%; /* 1 card per row */
-    max-width: 100%;
+    flex: 0 0 calc(50% - 10px); /* 2 cards per row on phones */
+    min-width: 140px;
+    max-width: none;
+  }
+}
+
+/* Very small screens: 2 cards per row */
+@media (max-width: 360px) {
+  .project-card {
+    flex: 0 0 calc(50% - 10px); /* Still 2 cards per row */
   }
 }
 
 /* Hidden project cards */
 .project-card-hidden {
   display: none;
+}
+
+/* Cards in second row that should be unclickable */
+.project-card-overlay-blocked {
+  pointer-events: none;
+  position: relative;
+  z-index: 1;
 }
   
 .project-card:hover {
@@ -285,40 +302,58 @@
 
 /* Projects Overlay and See More Button */
 .projects-overlay {
-  position: relative;
-  margin-top: -150px;
-  height: 150px;
-  background: linear-gradient(to top, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.7) 70%, transparent 100%);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.95) 30%, rgba(255, 255, 255, 0.6) 60%, transparent 100%);
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  padding-bottom: 20px;
+  padding-bottom: 8px;
   pointer-events: none;
   z-index: 10;
 }
 
 .see-more-button {
   pointer-events: auto;
-  background-color: #333;
-  color: #fff;
-  border: none;
-  padding: 12px 30px;
+  background-color: #fff;
+  color: #666;
+  border: 1px solid #ccc;
+  padding: 10px 40px;
   font-size: 1rem;
   font-family: "Quattrocento Sans", sans-serif;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s, transform 0.2s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .see-more-button:hover {
-  background-color: #555;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  background-color: #f5f5f5;
+  border-color: #999;
+  color: #333;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
 }
 
 .see-more-button:active {
   transform: translateY(0);
+}
+
+.see-more-button::after {
+  content: "↓";
+  font-size: 1.2rem;
+  line-height: 1;
+  transition: transform 0.3s;
+}
+
+.see-more-button:hover::after {
+  transform: translateY(2px);
 }
 
 /* Projects List Page Styles */
