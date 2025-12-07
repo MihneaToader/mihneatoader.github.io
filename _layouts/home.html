@@ -6,19 +6,24 @@ layout: default
     <h2>About Me</h2>
     <p>
 
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore
+      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
     </p>
     <p>
-      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.
+      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+      sint occaecat cupidatat non proident.
     </p>
     <p>
-      Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis.
+      Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
+      aperiam, eaque ipsa quae ab illo inventore veritatis.
     </p>
     <p>
-      At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias.
+      At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque
+      corrupti quos dolores et quas molestias.
     </p>
     <p>
-      Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est.
+      Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat
+      facere possimus, omnis voluptas assumenda est.
     </p>
   </div>
   <div class="intro-image">
@@ -31,12 +36,12 @@ layout: default
   <div class="projects-wrapper">
     <div class="projects-container" id="projectsContainer">
       {% for post in site.posts %}
-        <div class="project-card" data-row="{{ forloop.index0 | divided_by: 4 }}">
-          <a href="{{ site.github.url }}{{ post.url }}">
+      <div class="project-card" data-row="{{ forloop.index0 | divided_by: 4 }}">
+        <a href="{{ site.github.url }}{{ post.url }}">
           {% if post.image %}
-            <div class="project-image">
-                <img src="{{ site.github.url }}/assets/img/{{ post.image }}" alt="{{ post.title }}">
-            </div>
+          <div class="project-image">
+            <img src="{{ site.github.url }}/assets/img/{{ post.image }}" alt="{{ post.title }}">
+          </div>
           {% endif %}
           <div class="project-title">
             {{ post.title }}
@@ -44,31 +49,33 @@ layout: default
           <div class="project-description">
             {{ post.excerpt | strip_html | truncate: 100 }}
           </div>
-          </a>
-        </div>
+        </a>
+      </div>
       {% endfor %}
     </div>
     <div class="projects-overlay" id="projectsOverlay">
-      <button class="see-more-button" id="seeMoreButton">See More</button>
+    </div>
+    <div class="toggle-button-container" id="toggleButtonContainer">
+      <button class="toggle-button" id="toggleButton">See More</button>
     </div>
   </div>
 </section>
 
 <section class="education-section">
   <h3>Education</h2>
-  <div class="education-container">
-    <div class="education-item">
-      <h4>University Name</h4>
-      <p>Bachelor of Science in Computer Science</p>
-      <p>Graduated: 2023</p>
+    <div class="education-container">
+      <div class="education-item">
+        <h4>University Name</h4>
+        <p>Bachelor of Science in Computer Science</p>
+        <p>Graduated: 2023</p>
+      </div>
+      <div class="separator"></div>
+      <div class="education-item">
+        <h4>Another Institution</h4>
+        <p>Course or Certification</p>
+        <p>Completed: 2021</p>
+      </div>
     </div>
-    <div class="separator"></div>
-    <div class="education-item">
-      <h4>Another Institution</h4>
-      <p>Course or Certification</p>
-      <p>Completed: 2021</p>
-    </div>
-  </div>
 </section>
 
 <script>
@@ -99,62 +106,113 @@ layout: default
     // Projects "See More" functionality
     const projectsContainer = document.getElementById('projectsContainer');
     const projectsOverlay = document.getElementById('projectsOverlay');
-    const seeMoreButton = document.getElementById('seeMoreButton');
-    
-    if (projectsContainer && projectsOverlay && seeMoreButton) {
+    const toggleButtonContainer = document.getElementById('toggleButtonContainer');
+    const toggleButton = document.getElementById('toggleButton');
+
+    if (projectsContainer && projectsOverlay && toggleButtonContainer && toggleButton) {
       const projectCards = Array.from(projectsContainer.querySelectorAll('.project-card'));
-      
-      // Function to calculate cards per row based on container width
+
+      // Function to detect actual cards per row from CSS Grid
       function getCardsPerRow() {
-        const containerWidth = projectsContainer.offsetWidth;
-        if (containerWidth <= 480) return 2;  // 2 cards on phones
-        if (containerWidth <= 768) return 2;  // 2 cards on small tablets
-        if (containerWidth <= 1200) return 3; // 3 cards on medium screens
-        return 4; // 4 cards on desktop
+        // Read the grid-template-columns from computed styles
+        const computedStyle = window.getComputedStyle(projectsContainer);
+        const gridTemplateColumns = computedStyle.gridTemplateColumns;
+
+        // Parse the grid-template-columns value
+        // It will be something like "1fr 1fr 1fr 1fr" or "repeat(4, 1fr)"
+        // Count the number of columns by splitting and counting non-empty values
+        const columns = gridTemplateColumns.split(' ').filter(col => col.trim() !== '');
+
+        // If it's a repeat() syntax, we need to parse it differently
+        // For now, count the actual columns from the split
+        if (columns.length > 0) {
+          // Check if it's a repeat() syntax
+          const repeatMatch = gridTemplateColumns.match(/repeat\((\d+)/);
+          if (repeatMatch) {
+            return parseInt(repeatMatch[1], 10);
+          }
+          // Otherwise count the columns
+          return columns.length;
+        }
+
+        // Fallback: detect from card positions
+        const visibleCards = projectCards.filter(card => !card.classList.contains('project-card-hidden'));
+        if (visibleCards.length === 0) return 4;
+
+        // Get the first card's position
+        const firstCard = visibleCards[0];
+        const firstCardRect = firstCard.getBoundingClientRect();
+        const firstCardTop = firstCardRect.top;
+
+        // Count how many cards are on the same row (same top position)
+        let cardsInFirstRow = 1;
+        for (let i = 1; i < visibleCards.length; i++) {
+          const cardRect = visibleCards[i].getBoundingClientRect();
+          // Allow small tolerance for rounding errors (within 5px)
+          if (Math.abs(cardRect.top - firstCardTop) < 5) {
+            cardsInFirstRow++;
+          } else {
+            break; // Found a card on a different row
+          }
+        }
+
+        return cardsInFirstRow;
       }
-      
+
       // Function to position overlay to cover second row
       function positionOverlay() {
+        const visibleCards = projectCards.filter(card => !card.classList.contains('project-card-hidden'));
         const cardsPerRow = getCardsPerRow();
-        if (projectCards.length <= cardsPerRow) {
+
+        if (visibleCards.length <= cardsPerRow) {
           return; // No overlay needed
         }
-        
+
         // Get the first card of the second row
-        const secondRowFirstCard = projectCards[cardsPerRow];
-        if (secondRowFirstCard && !secondRowFirstCard.classList.contains('project-card-hidden')) {
+        const secondRowFirstCard = visibleCards[cardsPerRow];
+
+        if (secondRowFirstCard) {
           const cardRect = secondRowFirstCard.getBoundingClientRect();
           const containerRect = projectsContainer.getBoundingClientRect();
           const offsetFromTop = cardRect.top - containerRect.top;
-          
-          // Position overlay to start from second row
+
+          // Calculate the height of the second row
+          const firstRowLastCard = visibleCards[cardsPerRow - 1];
+          const firstRowLastCardRect = firstRowLastCard.getBoundingClientRect();
+          const rowHeight = cardRect.bottom - cardRect.top + 20;
+
+          // Position overlay to start from second row and cover the entire row
           projectsOverlay.style.top = offsetFromTop + 'px';
+          projectsOverlay.style.height = rowHeight + 'px';
           projectsOverlay.style.bottom = 'auto';
         }
       }
-      
+
       // Function to hide/show cards based on visible rows
       function updateVisibleCards() {
         const cardsPerRow = getCardsPerRow();
         const maxVisibleRows = 2; // Show first 2 rows (first clickable, second blocked)
         const maxVisibleCards = cardsPerRow * maxVisibleRows;
-        
+
         projectCards.forEach((card, index) => {
           if (index >= maxVisibleCards) {
             // Hide cards beyond second row
             card.classList.add('project-card-hidden');
             card.classList.remove('project-card-overlay-blocked');
+            card.style.display = 'none'; // Actually hide from layout
           } else if (index >= cardsPerRow) {
             // Second row: visible but blocked by overlay
+            card.style.display = ''; // Reset display
             card.classList.remove('project-card-hidden');
             card.classList.add('project-card-overlay-blocked');
           } else {
             // First row: fully visible and clickable
+            card.style.display = ''; // Reset display
             card.classList.remove('project-card-hidden');
             card.classList.remove('project-card-overlay-blocked');
           }
         });
-        
+
         // Show/hide overlay based on number of projects
         if (projectCards.length <= cardsPerRow) {
           // Only one row, no overlay needed
@@ -162,33 +220,181 @@ layout: default
         } else {
           // More than one row, show overlay to block second row
           projectsOverlay.style.display = 'flex';
-          // Position overlay after a short delay to ensure layout is complete
+          // Position overlay after layout is complete
           setTimeout(positionOverlay, 50);
         }
       }
-      
+
       // Initial setup
       updateVisibleCards();
-      
+
       // Update on window resize
       let resizeTimeout;
-      window.addEventListener('resize', function() {
+      window.addEventListener('resize', function () {
         clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(function() {
+        resizeTimeout = setTimeout(function () {
           updateVisibleCards();
           positionOverlay();
         }, 250);
       });
-      
-      // See More button click handler
-      seeMoreButton.addEventListener('click', function() {
-        // Show all cards and remove blocking
-        projectCards.forEach(card => {
-          card.classList.remove('project-card-hidden');
-          card.classList.remove('project-card-overlay-blocked');
-        });
-        // Hide the overlay
-        projectsOverlay.style.display = 'none';
+
+      let isExpanded = false;
+
+      // Toggle button click handler
+      toggleButton.addEventListener('click', function () {
+        if (!isExpanded) {
+          // EXPAND: Show more cards
+          isExpanded = true;
+          toggleButton.textContent = 'See Less';
+          toggleButton.classList.add('arrow-up');
+
+          // Get the current button position before any changes
+          const startButtonRect = toggleButtonContainer.getBoundingClientRect();
+          const wrapperRect = projectsContainer.parentElement.getBoundingClientRect();
+          const startButtonTop = startButtonRect.top - wrapperRect.top;
+
+          // Fade out overlay
+          projectsOverlay.style.transition = 'opacity 0.4s ease';
+          projectsOverlay.style.opacity = '0';
+
+          // Show all hidden cards immediately (but invisible)
+          projectCards.forEach((card) => {
+            card.classList.remove('project-card-overlay-blocked');
+            if (card.classList.contains('project-card-hidden')) {
+              card.style.display = '';
+              card.style.opacity = '0';
+            }
+          });
+
+          // Force layout recalculation
+          projectsContainer.offsetHeight;
+
+          // Get the final button position with all cards visible
+          const endButtonRect = toggleButtonContainer.getBoundingClientRect();
+          const endButtonTop = endButtonRect.top - wrapperRect.top;
+
+          // Calculate distance to travel
+          const distance = endButtonTop - startButtonTop;
+
+          // Start button at original position using transform
+          toggleButtonContainer.style.transform = `translateY(${-distance}px)`;
+          toggleButtonContainer.style.transition = 'none';
+
+          // Force reflow
+          toggleButtonContainer.offsetHeight;
+
+          // Animate button to final position and hide overlay
+          setTimeout(() => {
+            projectsOverlay.style.display = 'none';
+
+            // Animate button downward
+            toggleButtonContainer.style.transition = 'transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1)';
+            toggleButtonContainer.style.transform = 'translateY(0)';
+
+            // Reveal cards with stagger
+            projectCards.forEach((card, index) => {
+              if (card.style.opacity === '0') {
+                setTimeout(() => {
+                  card.style.transition = 'opacity 0.3s ease';
+                  card.style.opacity = '1';
+                  card.classList.remove('project-card-hidden');
+                }, index * 20);
+              }
+            });
+          }, 50);
+
+        } else {
+          // COLLAPSE: Hide extra cards
+          isExpanded = false;
+          toggleButton.textContent = 'See More';
+          toggleButton.classList.remove('arrow-up');
+
+          // Get cards that should be hidden
+          const cardsPerRow = getCardsPerRow();
+          const maxVisibleCards = cardsPerRow * 2;
+
+          // Hide cards with fade
+          const cardsToHide = [];
+          projectCards.forEach((card, index) => {
+            if (index >= maxVisibleCards) {
+              cardsToHide.push({ card, index });
+            }
+          });
+
+          // Calculate the height of cards to be removed
+          let totalHeightToRemove = 0;
+          const containerStyle = window.getComputedStyle(projectsContainer);
+          const gap = parseFloat(containerStyle.rowGap) || 20;
+
+          // Group cards by rows to calculate exact height
+          const cardsByRow = new Map();
+          cardsToHide.forEach(item => {
+            const cardRect = item.card.getBoundingClientRect();
+            const rowKey = Math.round(cardRect.top);
+            if (!cardsByRow.has(rowKey)) {
+              cardsByRow.set(rowKey, []);
+            }
+            cardsByRow.get(rowKey).push(item);
+          });
+
+          // Calculate total height (card heights + gaps between rows)
+          const uniqueRows = Array.from(cardsByRow.keys()).sort((a, b) => a - b);
+          uniqueRows.forEach((rowTop, index) => {
+            const rowCards = cardsByRow.get(rowTop);
+            const tallestCard = Math.max(...rowCards.map(item => item.card.offsetHeight));
+            totalHeightToRemove += tallestCard;
+            if (index < uniqueRows.length - 1) {
+              totalHeightToRemove += gap; // Add gap between rows
+            }
+          });
+
+          // Start both animations simultaneously
+          setTimeout(() => {
+            // Start fading out cards (in reverse order for visual effect)
+            cardsToHide.forEach((item, i) => {
+              setTimeout(() => {
+                item.card.style.transition = 'opacity 0.4s ease';
+                item.card.style.opacity = '0';
+              }, i * 15);
+            });
+
+            // Animate button upward by the height of removed content
+            toggleButtonContainer.style.transition = 'transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1)';
+            toggleButtonContainer.style.transform = `translateY(-${totalHeightToRemove}px)`;
+
+            // After fade completes, remove cards from layout and reset button
+            setTimeout(() => {
+              cardsToHide.forEach(item => {
+                item.card.style.display = 'none';
+                item.card.classList.add('project-card-hidden');
+              });
+
+              // Reset button transform since layout has changed
+              toggleButtonContainer.style.transition = 'none';
+              toggleButtonContainer.style.transform = 'translateY(0)';
+
+              // Force reflow
+              toggleButtonContainer.offsetHeight;
+
+              // Update card visibility states
+              projectCards.forEach((card, index) => {
+                if (index >= cardsPerRow && index < maxVisibleCards) {
+                  card.classList.add('project-card-overlay-blocked');
+                }
+              });
+
+              // Position and show overlay
+              positionOverlay();
+              projectsOverlay.style.display = 'flex';
+              projectsOverlay.style.opacity = '0';
+              projectsOverlay.style.transition = 'opacity 0.4s ease';
+
+              setTimeout(() => {
+                projectsOverlay.style.opacity = '1';
+              }, 50);
+            }, cardsToHide.length * 15 + 400); // Wait for fade to complete
+          }, 50);
+        }
       });
     }
   });
