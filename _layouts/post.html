@@ -1,25 +1,34 @@
 ---
 layout: default
 ---
-
+{% if page.redirect %}
+<script type="text/javascript">
+  window.location.href = "{{ page.redirect }}";
+</script>
+<noscript>
+  <meta http-equiv="refresh" content="0; url={{ page.redirect }}" />
+</noscript>
+<p>Redirecting to <a href="{{ page.redirect }}">{{ page.redirect }}</a>...</p>
+{% else %}
 <h1>
   {{ page.title }}
 </h1>
 {% if page.image %}
-  <img src="{{ site.github.url }}/assets/img/{{ page.image }}">
+<img src="{{ site.github.url }}/assets/img/{{ page.image }}">
 {% endif %}
 <article>
   {{ content }}
 </article>
 {% if site.hide_post_date != true %}
-  {% include post-date.html %}
+{% include post-date.html %}
 {% endif %}
 {% if site.hide_post_share != true %}
-  {% include social-sharing.html %}
+{% include social-sharing.html %}
 {% endif %}
 {% if site.hide_related_posts != true %}
-  {% include related-posts.html %}
+{% include related-posts.html %}
 {% endif %}
 {% if site.data.settings.disqus.comments %}
-  {% include disqus.html %}
+{% include disqus.html %}
+{% endif %}
 {% endif %}

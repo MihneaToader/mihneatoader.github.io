@@ -37,7 +37,8 @@ layout: default
     <div class="projects-container" id="projectsContainer">
       {% for post in site.posts %}
       <div class="project-card" data-row="{{ forloop.index0 | divided_by: 4 }}">
-        <a href="{{ site.github.url }}{{ post.url }}">
+        <a href="{% if post.redirect %}{{ post.redirect }}{% else %}{{ site.github.url }}{{ post.url }}{% endif %}" {%
+          if post.redirect %} target="_blank" rel="noopener noreferrer" {% endif %}>
           {% if post.image %}
           <div class="project-image">
             <img src="{{ site.github.url }}/assets/img/{{ post.image }}" alt="{{ post.title }}">
