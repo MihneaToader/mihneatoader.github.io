@@ -522,6 +522,42 @@
   margin: 0 1rem;
 }
 
+/* Work Experience Section */
+
+.work-experience-section h3 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.work-experience-container {
+  display: flex;
+  align-items: center;
+}
+
+.work-experience-item {
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 1.5s, transform 1.5s;
+  padding: 0.5rem;
+  max-width: 300px;
+}
+
+.work-experience-item.animate {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.work-experience-item h4 {
+  font-size: 1.2rem;
+  color: #505050;
+}
+
+.work-experience-item p {
+  font-size: 0.9rem;
+  color: #666;
+}
+
 @keyframes fadeIn {
   to {
     opacity: 1;
@@ -573,7 +609,7 @@
   left: 0;
   right: 0;
   height: 80px;
-  background: linear-gradient(to top, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.95) 30%, rgba(255, 255, 255, 0.6) 60%, transparent 100%);
+  background: linear-gradient(to top, var(--bg-color, rgb(255, 255, 255)) 0%, color-mix(in srgb, var(--bg-color, rgb(255, 255, 255)) 95%, transparent) 30%, color-mix(in srgb, var(--bg-color, rgb(255, 255, 255)) 60%, transparent) 60%, transparent 100%);
   display: flex;
   align-items: flex-end;
   justify-content: center;

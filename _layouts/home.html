@@ -62,19 +62,36 @@ layout: default
   </div>
 </section>
 
+<section class="work-experience-section">
+  <h3>Work Experience</h3>
+  <div class="work-experience-container">
+    <div class="work-experience-item">
+      <h4>ANYbotics</h4>
+      <p>Internship & Working student</p>
+      <p>06/2024 - 06/2025</p>
+    </div>
+    <div class="separator"></div>
+    <div class="work-experience-item">
+      <h4>FS Team Delft</h4>
+      <p>Software Engineer</p>
+      <p>09/2021 - 07/2022</p>
+    </div>
+  </div>
+</section>
+
 <section class="education-section">
   <h3>Education</h2>
     <div class="education-container">
       <div class="education-item">
-        <h4>University Name</h4>
-        <p>Bachelor of Science in Computer Science</p>
-        <p>Graduated: 2023</p>
+        <h4>ETH Zürich</h4>
+        <p>MSc Robotics, Systems and Control</p>
+        <p>Expected graduation date: March 2026</p>
       </div>
       <div class="separator"></div>
       <div class="education-item">
-        <h4>Another Institution</h4>
-        <p>Course or Certification</p>
-        <p>Completed: 2021</p>
+        <h4>Technical University Delft</h4>
+        <p>BSc Computer Science and Engineering</p>
+        <p>Graduated: June 2023 cum laude</p>
       </div>
     </div>
 </section>
@@ -99,7 +116,7 @@ layout: default
       });
     }, observerOptions);
 
-    const items = document.querySelectorAll(".education-item, .separator");
+    const items = document.querySelectorAll(".education-item, .work-experience-item, .separator");
     items.forEach(item => {
       observer.observe(item);
     });
@@ -214,13 +231,15 @@ layout: default
           }
         });
 
-        // Show/hide overlay based on number of projects
+        // Show/hide overlay and toggle button based on number of projects
         if (projectCards.length <= cardsPerRow) {
-          // Only one row, no overlay needed
+          // Only one row, no overlay or toggle button needed
           projectsOverlay.style.display = 'none';
+          toggleButtonContainer.style.display = 'none';
         } else {
           // More than one row, show overlay to block second row
           projectsOverlay.style.display = 'flex';
+          toggleButtonContainer.style.display = 'flex';
           // Position overlay after layout is complete
           setTimeout(positionOverlay, 50);
         }
@@ -235,7 +254,11 @@ layout: default
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(function () {
           updateVisibleCards();
-          positionOverlay();
+          // Only position overlay if there are multiple rows
+          const cardsPerRow = getCardsPerRow();
+          if (projectCards.length > cardsPerRow) {
+            positionOverlay();
+          }
         }, 250);
       });
 
@@ -342,10 +365,12 @@ layout: default
           const uniqueRows = Array.from(cardsByRow.keys()).sort((a, b) => a - b);
           uniqueRows.forEach((rowTop, index) => {
             const rowCards = cardsByRow.get(rowTop);
-            const tallestCard = Math.max(...rowCards.map(item => item.card.offsetHeight));
-            totalHeightToRemove += tallestCard;
-            if (index < uniqueRows.length - 1) {
-              totalHeightToRemove += gap; // Add gap between rows
+            if (rowCards && rowCards.length > 0) {
+              const tallestCard = Math.max(...rowCards.map(item => item.card.offsetHeight));
+              totalHeightToRemove += tallestCard;
+              if (index < uniqueRows.length - 1) {
+                totalHeightToRemove += gap; // Add gap between rows
+              }
             }
           });
 
