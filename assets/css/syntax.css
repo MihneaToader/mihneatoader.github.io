@@ -589,8 +589,14 @@
 }
 
 .intro-image {
-  flex: 0 0 10vw;
-  border-radius: 15px;
+  flex: 0 0 auto;
+  width: 15vw;
+  height: 15vw;
+  min-width: 160px;
+  min-height: 160px;
+  max-width: 200px;
+  max-height: 200px;
+  border-radius: 50%;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-top: 4rem;
@@ -598,8 +604,29 @@
 
 .intro-image img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
   display: block;
+}
+
+/* Responsive adjustments for landscape vs portrait */
+@media (max-width: 768px) and (orientation: portrait) {
+  .intro-image {
+    width: 25vw;
+    height: 25vw;
+    max-width: 150px;
+    max-height: 150px;
+  }
+}
+
+@media (max-width: 768px) and (orientation: landscape) {
+  .intro-image {
+    width: 12vw;
+    height: 12vw;
+    max-width: 120px;
+    max-height: 120px;
+    margin-top: 2rem;
+  }
 }
 
 /* Projects Overlay and See More Button */
