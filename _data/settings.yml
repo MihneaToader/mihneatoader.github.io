@@ -8,7 +8,8 @@ google-ID: ''
 
 menu:
 - {name: 'Projects', url: 'projects.html'}
-- {name: 'Writing', url: 'writing.html'}
+- {name: 'Contact', url: 'contact.html'}
+- {name: 'CV', url: 'assets/MihneaCV-2025-12-08.pdf'}
 
 # Available social icons are powered by Font Awesome, so you can use any icon that they offer
 social:

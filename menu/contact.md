@@ -4,4 +4,7 @@ title: Contact
 permalink: /contact
 ---
 
-If you are having any problems, any questions or suggestions, feel free to [tweet at me](https://twitter.com/intent/tweet?text=%40paululele), or [file a GitHub issue](https://github.com/lenpaul/lagrange/issues/new)
+- **LinkedIn**: [linkedin.com/in/toader-mihnea](https://www.linkedin.com/in/toader-mihnea/) - Best way to reach me
+- **GitHub**: [github.com/MihneaToader](https://github.com/MihneaToader)
+
+Feel free to reach out if you'd like to chat about perception, task-driven sensing, or any related topics in robotics!
