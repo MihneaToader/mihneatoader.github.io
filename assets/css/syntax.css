@@ -314,7 +314,7 @@
 
 /* Projects Section */
 .projects-section {
-  margin: 3rem 0;
+  margin: 1rem 0;
 }
 
 .projects-section-header {
@@ -590,10 +590,10 @@
   float: right;
   width: 15vw;
   height: 15vw;
-  min-width: 160px;
-  min-height: 160px;
-  max-width: 200px;
-  max-height: 200px;
+  min-width: 140px;
+  min-height: 140px;
+  max-width: 150px;
+  max-height: 150px;
   border-radius: 50%;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
